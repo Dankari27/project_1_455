@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="1180" viewBox="0 0 1760 1180" font-family="Segoe UI, Arial, sans-serif">
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#374151"/></marker>
+<marker id="arrE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="30" y="44" font-size="26" font-weight="700" fill="#111827">LOLCODE Markdown: lexical analyzer DFA</text>
+<text x="30" y="72" font-size="16" fill="#4b5563">Character-by-character: get_char() reads, add_char() gathers, lookup() checks the gathered lexeme</text>
+<line x1="50" y1="470" x2="122" y2="470" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<text x="40" y="455" font-size="15" fill="#1f2937" font-weight="600">start</text>
+<path d="M 150 429 C 115 354, 225 354, 190 429" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="121" y="332" width="98" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="128" y="351" font-size="15" fill="#1f2937">ws  (skip)</text>
+<line x1="208.5" y1="444.8" x2="391.5" y2="325.2" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="199" y="369" width="123" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="206" y="388" font-size="15" fill="#1f2937">#  / add_char</text>
+<line x1="204.5" y1="500.5" x2="391.1" y2="665.5" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="194" y="560" width="98" height="46" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="201" y="579" font-size="15" fill="#1f2937">text char</text>
+<text x="201" y="598" font-size="15" fill="#1f2937">/ add_char</text>
+<line x1="476.0" y1="300.0" x2="674.0" y2="300.0" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="497" y="264" width="157" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="504" y="283" font-size="15" fill="#1f2937">letter / add_char</text>
+<path d="M 700 259 C 665 184, 775 184, 740 259" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="642" y="162" width="157" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="649" y="181" font-size="15" fill="#1f2937">letter / add_char</text>
+<line x1="764.3" y1="287.8" x2="1249.9" y2="153.8" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="895" y="179" width="224" height="84" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="902" y="198" font-size="15" fill="#1f2937">ws, #, EOF *</text>
+<text x="902" y="217" font-size="15" fill="#1f2937">lookup = HAI, KBYE, OBTW,</text>
+<text x="902" y="236" font-size="15" fill="#1f2937">TLDR, MKAY, OIC, IHAZ,</text>
+<text x="902" y="255" font-size="15" fill="#1f2937">ITIZ, NEWLINE</text>
+<line x1="764.1" y1="313.0" x2="1015.9" y2="387.0" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="774" y="294" width="207" height="65" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="781" y="313" font-size="15" fill="#1f2937">ws</text>
+<text x="781" y="332" font-size="15" fill="#1f2937">lookup = MAEK or GIMMEH</text>
+<text x="781" y="351" font-size="15" fill="#1f2937">/ add_char(&#x27; &#x27;)</text>
+<path d="M 1040 359 C 1005 284, 1115 284, 1080 359" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="1011" y="262" width="98" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="1018" y="281" font-size="15" fill="#1f2937">ws  (skip)</text>
+<line x1="1106.0" y1="400.0" x2="1274.0" y2="400.0" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="1112" y="364" width="157" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="1119" y="383" font-size="15" fill="#1f2937">letter / add_char</text>
+<path d="M 1300 359 C 1265 284, 1375 284, 1340 359" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="1242" y="262" width="157" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="1249" y="281" font-size="15" fill="#1f2937">letter / add_char</text>
+<line x1="1366.0" y1="400.0" x2="1528.0" y2="400.0" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="1331" y="459" width="232" height="122" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="1338" y="478" font-size="15" fill="#1f2937">ws, #, EOF *</text>
+<text x="1338" y="497" font-size="15" fill="#1f2937">lookup = MAEK HEAD,</text>
+<text x="1338" y="516" font-size="15" fill="#1f2937">MAEK PARAGRAF, MAEK LIST,</text>
+<text x="1338" y="535" font-size="15" fill="#1f2937">GIMMEH TITLE, GIMMEH BOLD,</text>
+<text x="1338" y="554" font-size="15" fill="#1f2937">GIMMEH ITEM, GIMMEH LINX,</text>
+<text x="1338" y="573" font-size="15" fill="#1f2937">GIMMEH VAR</text>
+<path d="M 450 741 C 485 816, 375 816, 410 741" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="339" y="812" width="182" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="346" y="831" font-size="15" fill="#1f2937">text char / add_char</text>
+<polyline points="170,516 170,1000 1060,1000 1060,872" fill="none" stroke="#b91c1c" stroke-width="2" marker-end="url(#arrE)"/>
+<rect x="494" y="986" width="132" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="501" y="1005" font-size="15" fill="#b91c1c">any other char</text>
+<line x1="465.5" y1="329.3" x2="1024.5" y2="790.7" stroke="#b91c1c" stroke-width="2" marker-end="url(#arrE)"/>
+<rect x="586" y="454" width="115" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="593" y="473" font-size="15" fill="#b91c1c">not a letter</text>
+<line x1="745.2" y1="338.5" x2="1034.8" y2="781.5" stroke="#b91c1c" stroke-width="2" marker-end="url(#arrE)"/>
+<rect x="781" y="581" width="216" height="46" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="788" y="600" font-size="15" fill="#b91c1c">ws, #, EOF *</text>
+<text x="788" y="619" font-size="15" fill="#b91c1c">lookup fails (e.g. #HEY)</text>
+<line x1="1060.0" y1="446.0" x2="1060.0" y2="774.0" stroke="#b91c1c" stroke-width="2" marker-end="url(#arrE)"/>
+<rect x="1011" y="587" width="98" height="46" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="1018" y="606" font-size="15" fill="#b91c1c">#, EOF,</text>
+<text x="1018" y="625" font-size="15" fill="#b91c1c">other char</text>
+<line x1="1295.8" y1="439.1" x2="1084.2" y2="780.9" stroke="#b91c1c" stroke-width="2" marker-end="url(#arrE)"/>
+<rect x="1156" y="578" width="148" height="65" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="1163" y="596" font-size="15" fill="#b91c1c">ws, #, EOF *</text>
+<text x="1163" y="615" font-size="15" fill="#b91c1c">lookup fails</text>
+<text x="1163" y="634" font-size="15" fill="#b91c1c">(e.g. #MAEK HED)</text>
+<line x1="475.2" y1="708.6" x2="1014.8" y2="811.4" stroke="#b91c1c" stroke-width="2" marker-end="url(#arrE)"/>
+<rect x="706" y="752" width="132" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="713" y="770" font-size="15" fill="#b91c1c">any other char</text>
+<line x1="1450" y1="398" x2="1450" y2="398"/>
+<circle cx="170" cy="470" r="46" fill="#e0ecff" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="170" y="466" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">q0</text>
+<text x="170" y="486" text-anchor="middle" font-size="13" fill="#111827">START</text>
+<circle cx="430" cy="300" r="46" fill="#e0ecff" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="430" y="296" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">q1</text>
+<text x="430" y="316" text-anchor="middle" font-size="13" fill="#111827">HASH</text>
+<circle cx="720" cy="300" r="46" fill="#e0ecff" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="720" y="296" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">q2</text>
+<text x="720" y="316" text-anchor="middle" font-size="13" fill="#111827">KEYWORD</text>
+<circle cx="1300" cy="140" r="46" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/>
+<circle cx="1300" cy="140" r="52" fill="none" stroke="#15803d" stroke-width="2.5"/>
+<text x="1300" y="136" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">q3</text>
+<text x="1300" y="156" text-anchor="middle" font-size="12" fill="#111827">ANNOTATION</text>
+<circle cx="1060" cy="400" r="46" fill="#e0ecff" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="1060" y="396" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">q4</text>
+<text x="1060" y="416" text-anchor="middle" font-size="13" fill="#111827">GAP</text>
+<circle cx="1320" cy="400" r="46" fill="#e0ecff" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="1320" y="396" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">q5</text>
+<text x="1320" y="416" text-anchor="middle" font-size="12" fill="#111827">KEYWORD 2</text>
+<circle cx="1580" cy="400" r="46" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/>
+<circle cx="1580" cy="400" r="52" fill="none" stroke="#15803d" stroke-width="2.5"/>
+<text x="1580" y="396" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">q6</text>
+<text x="1580" y="416" text-anchor="middle" font-size="12" fill="#111827">ANNOTATION</text>
+<circle cx="430" cy="700" r="46" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/>
+<circle cx="430" cy="700" r="52" fill="none" stroke="#15803d" stroke-width="2.5"/>
+<text x="430" y="696" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">q7</text>
+<text x="430" y="716" text-anchor="middle" font-size="13" fill="#111827">TEXT</text>
+<circle cx="1060" cy="820" r="46" fill="#fde2e2" stroke="#b91c1c" stroke-width="2.5"/>
+<text x="1060" y="816" text-anchor="middle" font-size="19" font-weight="700" fill="#111827">qE</text>
+<text x="1060" y="836" text-anchor="middle" font-size="13" fill="#111827">ERROR</text>
+<rect x="1163" y="38" width="274" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="1170" y="57" font-size="15" fill="#15803d">emit annotation token, e.g. HAI</text>
+<rect x="1426" y="286" width="308" height="27" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="1433" y="305" font-size="15" fill="#15803d">emit two-word token, e.g. MAEK_HEAD</text>
+<rect x="193" y="807" width="115" height="46" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+<text x="200" y="826" font-size="15" fill="#15803d">ws, #, EOF *</text>
+<text x="200" y="845" font-size="15" fill="#15803d">emit WORD</text>
+<text x="30" y="1060" font-size="16" fill="#1f2937">Character classes:   letter = A-Z, a-z   |   text char = letter, 0-9, and  ,  .  &quot;  &#x27;  :  ?  !  %  =  /   |   ws = space, tab, CR, LF (newline)</text>
+<text x="30" y="1084" font-size="16" fill="#1f2937">Double circle = accepting state: the gathered lexeme is returned as a token and the lexer goes back to q0 for the next token.</text>
+<text x="30" y="1108" font-size="16" fill="#1f2937">*  = lookahead: the delimiter character is not part of the token; it is pushed back and read again from q0.</text>
+<text x="30" y="1132" font-size="16" fill="#1f2937">lookup(): the gathered letters are converted to upper case and compared with the keyword tables, so #hai, #HAI and #Hai all match.</text>
+</svg>
