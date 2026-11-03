@@ -1,8 +1,8 @@
-// reads the source one character at a time and groups the characters into tokens
+//! Reads the source one character at a time and groups the characters into tokens
 
 use crate::traits::LexicalAnalyzer;
 
-// legal annotation
+/// legal annotation
 const ANNOTATIONS: &[&str] = &[
     "#HAI",
     "#KBYE",
@@ -23,10 +23,10 @@ const ANNOTATIONS: &[&str] = &[
     "#ITIZ",
 ];
 
-// punctuation inside plain text
+/// Punctuation inside plain text
 const TEXT_PUNCTUATION: &str = ",.\"':?!%=/";
 
-// holds source text
+/// Holds source text
 pub struct Lexer {
 
     chars: Vec<char>,
@@ -43,7 +43,7 @@ pub struct Lexer {
 }
 
 impl Lexer {
-    // creates new lexer 
+    /// Creates a new lexer 
     pub fn new(source: &str) -> Self {
         Lexer {
             chars: source.chars().collect(),
@@ -56,19 +56,19 @@ impl Lexer {
         }
     }
 
-    // look at new character before moving on
+    /// Looks at new character before moving on
     fn peek(&self) -> Option<char> {
         self.chars.get(self.position).copied()
     }
 
-    // skips white space and other stuff
+    /// Skips white space and other stuff
     fn skip_whitespace(&mut self) {
         while self.peek().is_some_and(char::is_whitespace) {
             self.get_char();
         }
     }
 
-    // add letters to lexer until a letter doens't show up
+    /// Add letters to lexer until a letter doesn't show up
     fn read_word(&mut self) {
         while self.peek().is_some_and(|c| c.is_ascii_alphabetic()) {
             let c = self.get_char();
@@ -76,7 +76,7 @@ impl Lexer {
         }
     }
 
-    // finds the next token
+    /// Finds the next token
     pub fn scan_token(&mut self) -> Result<String, String> {
         self.skip_whitespace();
         self.lexeme.clear();
@@ -90,7 +90,7 @@ impl Lexer {
         }
     }
 
-    // reads an annotation such as `#HAI` or `#GIMMEH BOLD`.
+    /// Reads an annotation such as `#HAI` or `#GIMMEH BOLD`.
     fn scan_annotation(&mut self) -> Result<String, String> {
         let hash = self.get_char();
         self.add_char(hash);
@@ -121,7 +121,7 @@ impl Lexer {
         if self.lookup(&text) {
             Ok(text)
         } else {
-            // find out the first character that isn't allowed
+            // Find out the first character that isn't allowed
             let bad = text.chars().find(|c| !is_text_char(*c)).unwrap_or(' ');
             Err(format!(
                 "lexical error: character '{}' is not allowed in text",
@@ -131,13 +131,13 @@ impl Lexer {
     }
 }
 
-// true if the character is allowed inside text
+/// True if the character is allowed inside text
 fn is_text_char(c: char) -> bool {
     c.is_ascii_alphanumeric() || matches!(c, ' ' | '\t' | '\n' | '\r') || TEXT_PUNCTUATION.contains(c)
 }
 
 impl LexicalAnalyzer for Lexer {
-    // returns the next character and then continues
+    /// Returns the next character and then continues
     fn get_char(&mut self) -> char {
         let Some(c) = self.peek() else {
             eprintln!("lexical error: unexpected end of file.");
@@ -153,12 +153,12 @@ impl LexicalAnalyzer for Lexer {
         c
     }
 
-    // adds one character to the token being built.
+    /// Adds one character to the token being built
     fn add_char(&mut self, c: char) {
         self.lexeme.push(c);
     }
 
-    // Annotations must be in the list above and text may only use allowed characters
+    /// Annotations must be in the list above and text may only use allowed characters
     fn lookup(&self, s: &str) -> bool {
         if s.starts_with('#') {
             ANNOTATIONS.contains(&s.to_uppercase().as_str())
@@ -172,7 +172,7 @@ impl LexicalAnalyzer for Lexer {
 mod tests {
     use super::*;
 
-    // collects every token in the source (stops at the end or the first error)
+    /// Collects every token in the source (stops at the end or the first error)
     fn all_tokens(source: &str) -> Result<Vec<String>, String> {
         let mut lexer = Lexer::new(source);
         let mut tokens = Vec::new();

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["ANNOTATIONS","TEXT_PUNCTUATION"],"fn":["is_text_char"],"struct":["Lexer"]};

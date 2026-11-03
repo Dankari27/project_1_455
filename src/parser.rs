@@ -1,11 +1,11 @@
-//a recursive descent parser with one function per grammar rule
+//! A recursive descent parser with one function per grammar rule
 
 
 use crate::compiler::LolCompiler;
 use crate::traits::{Compiler, SyntaxAnalyzer};
 
 impl LolCompiler {
-    // parsers variable defs
+    /// Parsers variable defs
     fn parse_variable(&mut self) -> Result<(), String> {
         while self.current_token() == "#IHAZ" {
             self.parse_variable_define()?;
@@ -13,7 +13,7 @@ impl LolCompiler {
         Ok(())
     }
 
-    // variable names must be a single word (num and char)
+    /// Variable names must be a single word (num and char)
     fn check_variable(&self) -> Result<(), String> {
         let name = self.current_token();
         if self.is_text() && name.chars().all(|c| c.is_ascii_alphanumeric()) {
@@ -33,7 +33,7 @@ impl LolCompiler {
 }
 
 impl SyntaxAnalyzer for LolCompiler {
-    // syntax
+    /// Syntax
     fn parse_lolcode(&mut self) -> Result<(), String> {
         self.expect("#HAI")?;
         while self.current_token() == "#OBTW" {
@@ -46,14 +46,14 @@ impl SyntaxAnalyzer for LolCompiler {
         self.parse_body()?;
         self.expect("#KBYE")?;
 
-        // nothing is allowed after #KBYE.
+        // Nothing is allowed after #KBYE.
         if !self.current_token().is_empty() {
             return Err(self.syntax_error("the end of the file after #KBYE"));
         }
         Ok(())
     }
 
-    // everything below here just parses stuff for the grammar rules
+    /// Everything below here just parses stuff for the grammar rules
     fn parse_head(&mut self) -> Result<(), String> {
         self.expect("#MAEK HEAD")?;
         self.parse_title()?;
@@ -136,7 +136,7 @@ impl SyntaxAnalyzer for LolCompiler {
         self.expect("#OIC")
     }
 
-    // <bold> ::= #GIMMEH BOLD <bold-text> #OIC   (bold text can be text or variables i think)
+    /// `<bold> ::= #GIMMEH BOLD <bold-text> #OIC`  (bold text can be text or variables i think)
     fn parse_bold(&mut self) -> Result<(), String> {
         self.expect("#GIMMEH BOLD")?;
         loop {
@@ -201,7 +201,7 @@ impl SyntaxAnalyzer for LolCompiler {
         self.expect("#NEWLINE")
     }
 
-    // does a thing and accepts the piece of plain text
+    /// Does a thing and accepts the piece of plain text
     fn parse_text(&mut self) -> Result<(), String> {
         if self.is_text() {
             self.accept()
@@ -217,7 +217,7 @@ mod tests {
     use crate::lexer::Lexer;
     use crate::traits::SyntaxAnalyzer;
 
-    // makes a compiler
+    /// Makes a compiler
     fn make_compiler(source: &str) -> LolCompiler {
         let mut compiler = LolCompiler::new();
         compiler.lexer = Lexer::new(source);

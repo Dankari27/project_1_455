@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["check_args","main","open_browser"],"mod":["compiler","lexer","parser","semantic","traits"]};

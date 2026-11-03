@@ -1,35 +1,35 @@
-//the traits given in the project 1 instructions
+//! The traits given in the project 1 instructions
 
-// trait for lolcompiler front end
+/// Trait for lolcompiler front end
 pub trait Compiler {
-    // begin the comp
+    /// Begin the comp
     fn compile(&mut self, source: &str);
 
-    // get the next token from lex
+    /// Get the next token from lex
     fn next_token(&mut self) -> String;
 
-    // run the syntax 
+    /// Run the syntax 
     fn parse(&mut self);
 
-    // Get the current token 
+    /// Get the current token 
     fn current_token(&self) -> String;
 
-    // set the current token 
+    /// Set the current token 
     fn set_current_token(&mut self, tok: String);
 }
 
 pub trait LexicalAnalyzer {
-    // return the next character from input
+    /// Return the next character from input
     fn get_char(&mut self) -> char;
 
-    // add a character to the current
+    /// Add a character to the current
     fn add_char(&mut self, c: char);
 
-    // Lookup a token (return true if valid)
+    /// Lookup a token (return true if valid)
     fn lookup(&self, s: &str) -> bool;
 }
 
-// syntax
+/// Syntax
 pub trait SyntaxAnalyzer {
     fn parse_lolcode(&mut self) -> Result<(), String>;
     fn parse_head(&mut self) -> Result<(), String>;

@@ -1,4 +1,4 @@
-//compiles a lolcode markdown (.lol) file into an html page
+//! Compiles a lolcode markdown (.lol) file into an html page
 
 
 mod compiler;
@@ -16,7 +16,7 @@ use traits::Compiler;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    // do we have one lol file?
+    // Do we have one lol file?
     let input = check_args(&args).unwrap_or_else(|message| {
         eprintln!("{}", message);
         process::exit(1);
@@ -27,7 +27,7 @@ fn main() {
         process::exit(1);
     });
 
-    // exit on any error, so we only get past here if everything worked
+    // Exit on any error, so we only get past here if everything worked
     let mut compiler = LolCompiler::new();
     compiler.compile(&source);
 
@@ -39,13 +39,13 @@ fn main() {
     }
     println!("Compiled '{}' into '{}'.", input.display(), output.display());
 
-    // this skips opening the browser 
+    // This skips opening the browser 
     if env::var_os("LOLCOMPILER_NO_BROWSER").is_none() {
         open_browser(&output);
     }
 }
 
-/// checks that one argument was given and is proper file type
+/// Checks that one argument was given and is the proper file type
 fn check_args(args: &[String]) -> Result<PathBuf, String> {
     if args.len() != 2 {
         return Err("error: expected exactly one input file".to_string());
@@ -57,7 +57,7 @@ fn check_args(args: &[String]) -> Result<PathBuf, String> {
     }
 }
 
-/// opens the html file in the default browser
+/// Opens the html file in the default browser
 fn open_browser(path: &Path) {
     let full_path = std::path::absolute(path).unwrap_or_else(|_| path.to_path_buf());
     let mut command = if cfg!(target_os = "windows") {
@@ -78,7 +78,7 @@ fn open_browser(path: &Path) {
 mod tests {
     use super::*;
 
-    /// transforms list of words
+    /// Transforms list of words
     fn args(list: &[&str]) -> Vec<String> {
         list.iter().map(|s| s.to_string()).collect()
     }
@@ -93,7 +93,7 @@ mod tests {
         assert!(check_args(&args(&["lolcompiler", "Test1.txt"])).unwrap_err().starts_with("Usage error"));
     }
 
-    /// compiles one file from the test folder and returns the html or the error.
+    /// Compiles one file from the test folder and returns the html or the error.
     fn compile_file(name: &str) -> Result<String, String> {
         let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("test").join(name);
         let source = fs::read_to_string(path).unwrap();
@@ -102,7 +102,7 @@ mod tests {
 
     #[test]
     fn expected_result() {
-        // format in file, what the result should start with
+        // Format in file, what the result should start with
         let expected = [
             ("Test2.lol", "<html>"),
             ("Test3.lol", "<html>"),

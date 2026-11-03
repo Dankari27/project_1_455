@@ -1,27 +1,27 @@
-//walks the parse tree, looks up variables using static
+//! Walks the parse tree, looks up variables using static
 
 
-// how an html tag is laid out 
+/// How an html tag is laid out 
 #[derive(Clone, Copy)]
 enum Layout {
-    // gets its own lines, 
-    //and its contents are indented (html, head, p, ul).
+    /// Gets its own lines, 
+    /// and its contents are indented (html, head, p, ul).
     Block,
-    // starts a new line, but its contents stay on that line (title, li).
+    /// Starts a new line, but its contents stay on that line (title, li).
     Line,
-    // stays in the middle of the text (b).
+    /// Stays in the middle of the text (b).
     Inline,
 }
 
-// one open block
+/// One open block
 struct Scope {
-    //closes block
+    /// Closes block
     close_tag: &'static str,
     layout: Layout,
     variables: Vec<(String, String)>,
 }
 
-// builds the html text (indented)
+/// Builds the html text (indented)
 struct HtmlWriter {
     text: String,
     depth: usize,
@@ -34,7 +34,7 @@ impl HtmlWriter {
         HtmlWriter { text: String::new(), depth: 0, at_line_start: true, glue_next: false }
     }
 
-    // start new line
+    /// Starts new line
     fn new_line(&mut self) {
         if !self.text.is_empty() {
             self.text.push('\n');
@@ -42,14 +42,14 @@ impl HtmlWriter {
         self.text.push_str(&"  ".repeat(self.depth));
     }
 
-    // used for comments
+    /// Used for comments
     fn line(&mut self, s: &str) {
         self.new_line();
         self.text.push_str(s);
         self.at_line_start = true;
     }
 
-    // adds text in the flow (sep by space)
+    /// Adds text in the flow (sep by space)
     fn inline(&mut self, s: &str) {
         if self.at_line_start {
             self.new_line();
@@ -61,7 +61,7 @@ impl HtmlWriter {
         self.glue_next = false;
     }
 
-    // writes an opening tag
+    /// Writes an opening tag
     fn open(&mut self, tag: &str, layout: Layout) {
         match layout {
             Layout::Block => {
@@ -80,7 +80,7 @@ impl HtmlWriter {
         }
     }
 
-    //writes a closing tag 
+    /// Writes a closing tag 
     fn close(&mut self, tag: &str, layout: Layout) {
         match layout {
             Layout::Block => {
@@ -100,7 +100,7 @@ impl HtmlWriter {
     }
 }
 
-// returns the closest match
+/// Returns the closest match
 fn find_variable<'a>(scopes: &'a [Scope], name: &str) -> Option<&'a str> {
     for scope in scopes.iter().rev() {
         for (var_name, value) in scope.variables.iter().rev() { //I learned iter existed, cool
@@ -112,7 +112,7 @@ fn find_variable<'a>(scopes: &'a [Scope], name: &str) -> Option<&'a str> {
     None
 }
 
-// turns the parse tree into html
+/// Turns the parse tree into html
 pub fn generate_html(tree: &[(String, usize)]) -> Result<String, String> {
     let mut out = HtmlWriter::new();
     let mut scopes: Vec<Scope> = Vec::new();
@@ -121,7 +121,7 @@ pub fn generate_html(tree: &[(String, usize)]) -> Result<String, String> {
     while i < tree.len() {
         let token = &tree[i].0;
 
-        // annotations 
+        // Annotations 
         let opening = match token.as_str() {
             "#HAI" => Some(("<html>", "</html>", Layout::Block)),
             "#MAEK HEAD" => Some(("<head>", "</head>", Layout::Block)),
@@ -140,7 +140,7 @@ pub fn generate_html(tree: &[(String, usize)]) -> Result<String, String> {
         }
 
         i += match token.as_str() {
-            //these edn a block
+            // These end a block
             "#MKAY" | "#OIC" | "#KBYE" => {
                 if let Some(scope) = scopes.pop() {
                     out.close(scope.close_tag, scope.layout);
@@ -185,7 +185,7 @@ pub fn generate_html(tree: &[(String, usize)]) -> Result<String, String> {
                 }
                 5
             }
-            // copied as is
+            // Copied as is
             _ => {
                 out.inline(token);
                 1
@@ -201,7 +201,7 @@ pub fn generate_html(tree: &[(String, usize)]) -> Result<String, String> {
 mod tests {
     use crate::compiler::LolCompiler;
 
-    // compiles source string to html
+    /// Compiles source string to html
     fn compile(source: &str) -> Result<String, String> {
         LolCompiler::new().try_compile(source)
     }

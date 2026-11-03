@@ -1,26 +1,26 @@
-// the compiler front end
+//! The main compiler front end
 
 use crate::lexer::Lexer;
 use crate::semantic;
 use crate::traits::{Compiler, SyntaxAnalyzer};
 
-// this holds stuff the compiler needs to function
+/// This holds stuff the compiler needs to function
 pub struct LolCompiler {
-    // converts to tokens
+    /// converts to tokens
     pub lexer: Lexer,
-    // EOF
+    /// EOF
     current: String,
-    // current tokens start
+    /// current tokens start
     current_line: usize,
     current_column: usize,
-    // accepted token
+    /// accepted token
     pub parse_tree: Vec<(String, usize)>,
-    // finished html
+    /// finished html
     pub html: String,
 }
 
 impl LolCompiler {
-    // empty compiler instance
+    /// Empty compiler instance
     pub fn new() -> Self {
         LolCompiler {
             lexer: Lexer::new(""),
@@ -32,7 +32,7 @@ impl LolCompiler {
         }
     }
 
-    // hands back
+    /// Hands back
     pub fn try_compile(&mut self, source: &str) -> Result<String, String> {
         self.lexer = Lexer::new(source);
         self.parse_tree.clear();
@@ -41,7 +41,7 @@ impl LolCompiler {
         semantic::generate_html(&self.parse_tree)
     }
 
-    // moves to next token
+    /// Moves to next token
     pub fn advance_next_token(&mut self) -> Result<(), String> {
         let token = self.lexer.scan_token()?;
         self.current_line = self.lexer.token_line;
@@ -50,13 +50,13 @@ impl LolCompiler {
         Ok(())
     }
 
-    // accepts current token into parse tree
+    /// Accepts the current token into parse tree
     pub fn accept(&mut self) -> Result<(), String> {
         self.parse_tree.push((self.current.clone(), self.current_line));
         self.advance_next_token()
     }
 
-    // accepts current token if it matches grammar
+    /// Accepts the current token if it matches grammar
     pub fn expect(&mut self, expected: &str) -> Result<(), String> {
         if self.current == expected {
             self.accept()
@@ -65,12 +65,12 @@ impl LolCompiler {
         }
     }
 
-    // true if token is plain text
+    /// True if token is plain text
     pub fn is_text(&self) -> bool {
         !self.current.is_empty() && !self.current.starts_with('#')
     }
 
-    // error message
+    /// Error message
     pub fn syntax_error(&self, expected: &str) -> String {
         let found = if self.current.is_empty() {
             "the end of the file".to_string()
@@ -85,7 +85,7 @@ impl LolCompiler {
 }
 
 impl Compiler for LolCompiler {
-    // compiles source
+    /// Compiles source
     fn compile(&mut self, source: &str) {
         self.html = self.try_compile(source).unwrap_or_else(|message| {
             eprintln!("{}", message);
@@ -93,7 +93,7 @@ impl Compiler for LolCompiler {
         });
     }
 
-    // gets next token from lexer
+    /// Gets next token from lexer
     fn next_token(&mut self) -> String {
         self.lexer.scan_token().unwrap_or_else(|message| {
             eprintln!("{}", message);
@@ -101,7 +101,7 @@ impl Compiler for LolCompiler {
         })
     }
 
-    // parse program 
+    /// Parse program 
     fn parse(&mut self) {
         if let Err(message) = self.parse_lolcode() {
             eprintln!("{}", message);
@@ -109,12 +109,12 @@ impl Compiler for LolCompiler {
         }
     }
 
-    // returns token currently looked at
+    /// Returns token currently looked at
     fn current_token(&self) -> String {
         self.current.clone()
     }
 
-    // replaces current token
+    /// Replaces current token
     fn set_current_token(&mut self, tok: String) {
         self.current = tok;
     }
