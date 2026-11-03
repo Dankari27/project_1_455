@@ -1,0 +1,16 @@
+Extra test cases (in addition to the provided Test1 - Test10)
+
+Test11.lol  Valid   - The Simpsons example from the project description (head, link, bold, list, newline).
+Test12.lol  Valid   - The lastname example: a global variable used inside bold and list items.
+Test13.lol  Valid   - The myname example: an inner variable hides the outer one, then the outer one comes back.
+Test14.lol  Syntax error   - A paragraph inside another paragraph.
+Test15.lol  Syntax error   - A list item outside of a list.
+Test16.lol  Syntax error   - A title outside of the head.
+Test17.lol  Lexical error  - #GIMMEH followed by a word that is not a keyword (ITALICS).
+Test18.lol  Syntax error   - Text after #KBYE.
+Test19.lol  Static semantic error - A variable used after the block it was defined in has ended.
+Test20.lol  Valid   - Lower case annotations, a variable defined inside a list item, and a variable inside bold.
+Test21.lol  Lexical error  - A character that is not allowed in text ('<').
+Test22.lol  Syntax error   - A variable definition that is not the first thing in its block.
+Test23.lol  Syntax error   - The file ends without #KBYE.
+Test24.lol  Valid   - Comments inside a paragraph and a list item, and a link inside a list item.
