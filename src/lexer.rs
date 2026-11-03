@@ -76,7 +76,7 @@ impl Lexer {
         }
     }
 
-    // finds the next token. 
+    // finds the next token
     pub fn scan_token(&mut self) -> Result<String, String> {
         self.skip_whitespace();
         self.lexeme.clear();
@@ -121,7 +121,7 @@ impl Lexer {
         if self.lookup(&text) {
             Ok(text)
         } else {
-            // find out the first character that isnt allowed.
+            // find out the first character that isn't allowed
             let bad = text.chars().find(|c| !is_text_char(*c)).unwrap_or(' ');
             Err(format!(
                 "lexical error: character '{}' is not allowed in text",
@@ -137,7 +137,7 @@ fn is_text_char(c: char) -> bool {
 }
 
 impl LexicalAnalyzer for Lexer {
-    // returns the next character and then contiues
+    // returns the next character and then continues
     fn get_char(&mut self) -> char {
         let Some(c) = self.peek() else {
             eprintln!("lexical error: unexpected end of file.");
@@ -158,7 +158,7 @@ impl LexicalAnalyzer for Lexer {
         self.lexeme.push(c);
     }
 
-    // Annotations must be in the list above; text may only use allowed characters.
+    // Annotations must be in the list above and text may only use allowed characters
     fn lookup(&self, s: &str) -> bool {
         if s.starts_with('#') {
             ANNOTATIONS.contains(&s.to_uppercase().as_str())
@@ -172,7 +172,7 @@ impl LexicalAnalyzer for Lexer {
 mod tests {
     use super::*;
 
-    // Collects every token in the source (stops at the end or the first error).
+    // collects every token in the source (stops at the end or the first error)
     fn all_tokens(source: &str) -> Result<Vec<String>, String> {
         let mut lexer = Lexer::new(source);
         let mut tokens = Vec::new();

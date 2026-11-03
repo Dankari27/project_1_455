@@ -5,7 +5,7 @@ use crate::compiler::LolCompiler;
 use crate::traits::{Compiler, SyntaxAnalyzer};
 
 impl LolCompiler {
-    // parsers variabl defs
+    // parsers variable defs
     fn parse_variable(&mut self) -> Result<(), String> {
         while self.current_token() == "#IHAZ" {
             self.parse_variable_define()?;
@@ -53,8 +53,7 @@ impl SyntaxAnalyzer for LolCompiler {
         Ok(())
     }
 
-    // Everything below here just parses stuff for the grammar rules
-   
+    // everything below here just parses stuff for the grammar rules
     fn parse_head(&mut self) -> Result<(), String> {
         self.expect("#MAEK HEAD")?;
         self.parse_title()?;

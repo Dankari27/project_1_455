@@ -1,7 +1,7 @@
 //walks the parse tree, looks up variables using static
 
 
-// how an HTML tag is laid out 
+// how an html tag is laid out 
 #[derive(Clone, Copy)]
 enum Layout {
     // gets its own lines, 
@@ -21,7 +21,7 @@ struct Scope {
     variables: Vec<(String, String)>,
 }
 
-// builds the HTML text (indented)
+// builds the html text (indented)
 struct HtmlWriter {
     text: String,
     depth: usize,

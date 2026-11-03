@@ -39,7 +39,7 @@ fn main() {
     }
     println!("Compiled '{}' into '{}'.", input.display(), output.display());
 
-    // this skips opening the browser (handy when testing because my pc is slow).
+    // this skips opening the browser 
     if env::var_os("LOLCOMPILER_NO_BROWSER").is_none() {
         open_browser(&output);
     }
@@ -57,7 +57,7 @@ fn check_args(args: &[String]) -> Result<PathBuf, String> {
     }
 }
 
-/// opens the HTML file in the default browser.
+/// opens the html file in the default browser
 fn open_browser(path: &Path) {
     let full_path = std::path::absolute(path).unwrap_or_else(|_| path.to_path_buf());
     let mut command = if cfg!(target_os = "windows") {
@@ -93,7 +93,7 @@ mod tests {
         assert!(check_args(&args(&["lolcompiler", "Test1.txt"])).unwrap_err().starts_with("Usage error"));
     }
 
-    /// Compiles one file from the test folder and returns the HTML or the error.
+    /// compiles one file from the test folder and returns the html or the error.
     fn compile_file(name: &str) -> Result<String, String> {
         let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("test").join(name);
         let source = fs::read_to_string(path).unwrap();

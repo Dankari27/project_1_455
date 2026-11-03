@@ -1,4 +1,4 @@
-//the traits given in the oroject 1 instructions
+//the traits given in the project 1 instructions
 
 // trait for lolcompiler front end
 pub trait Compiler {
