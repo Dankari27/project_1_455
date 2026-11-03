@@ -21,6 +21,7 @@ pub struct LolCompiler {
 
 impl LolCompiler {
     /// Empty compiler instance
+    /// Lexer starts with no source, it gets the actual one in try_compile
     pub fn new() -> Self {
         LolCompiler {
             lexer: Lexer::new(""),
@@ -33,15 +34,18 @@ impl LolCompiler {
     }
 
     /// Hands back
+    /// the html if it worked, or the first error message (lexical, syntax or semantic) if it didn't
     pub fn try_compile(&mut self, source: &str) -> Result<String, String> {
         self.lexer = Lexer::new(source);
         self.parse_tree.clear();
+        // Need the first token loaded before parsing can start
         self.advance_next_token()?;
         self.parse_lolcode()?;
         semantic::generate_html(&self.parse_tree)
     }
 
     /// Moves to next token
+    /// Also saves where the token started so errors can say the line and column
     pub fn advance_next_token(&mut self) -> Result<(), String> {
         let token = self.lexer.scan_token()?;
         self.current_line = self.lexer.token_line;
@@ -51,12 +55,14 @@ impl LolCompiler {
     }
 
     /// Accepts the current token into parse tree
+    /// Stores it with its line number and then moves on to the next one
     pub fn accept(&mut self) -> Result<(), String> {
         self.parse_tree.push((self.current.clone(), self.current_line));
         self.advance_next_token()
     }
 
     /// Accepts the current token if it matches grammar
+    /// If it doesn't match it's a syntax error
     pub fn expect(&mut self, expected: &str) -> Result<(), String> {
         if self.current == expected {
             self.accept()
@@ -66,12 +72,15 @@ impl LolCompiler {
     }
 
     /// True if token is plain text
+    /// Annotations start with # and an empty token means end of file, so neither counts
     pub fn is_text(&self) -> bool {
         !self.current.is_empty() && !self.current.starts_with('#')
     }
 
     /// Error message
+    /// Builds the syntax error with the line, column, what we wanted and what we got instead
     pub fn syntax_error(&self, expected: &str) -> String {
+        // Empty token means we ran out of file
         let found = if self.current.is_empty() {
             "the end of the file".to_string()
         } else {
@@ -86,6 +95,7 @@ impl LolCompiler {
 
 impl Compiler for LolCompiler {
     /// Compiles source
+    /// Saves the html if it worked, otherwise prints the error and exits
     fn compile(&mut self, source: &str) {
         self.html = self.try_compile(source).unwrap_or_else(|message| {
             eprintln!("{}", message);
@@ -94,6 +104,7 @@ impl Compiler for LolCompiler {
     }
 
     /// Gets next token from lexer
+    /// Exits if the lexer finds something that isn't allowed
     fn next_token(&mut self) -> String {
         self.lexer.scan_token().unwrap_or_else(|message| {
             eprintln!("{}", message);
@@ -101,7 +112,8 @@ impl Compiler for LolCompiler {
         })
     }
 
-    /// Parse program 
+    /// Parse program
+    /// Exits on the first syntax error
     fn parse(&mut self) {
         if let Err(message) = self.parse_lolcode() {
             eprintln!("{}", message);
@@ -124,6 +136,7 @@ impl Compiler for LolCompiler {
 mod tests {
     use super::*;
 
+    /// Tokens should come out in order and then empty at the end
     #[test]
     fn next_token_source() {
         let mut compiler = LolCompiler::new();
@@ -134,6 +147,7 @@ mod tests {
         assert_eq!(compiler.next_token(), "");
     }
 
+    /// Setting a token and reading it back should give the same thing
     #[test]
     fn current_token_setread() {
         let mut compiler = LolCompiler::new();
@@ -141,6 +155,7 @@ mod tests {
         assert_eq!(compiler.current_token(), "#OIC");
     }
 
+    /// Compile should save the finished html in the compiler
     #[test]
     fn compile_storehtml() {
         let mut compiler = LolCompiler::new();

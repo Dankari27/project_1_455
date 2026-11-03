@@ -13,6 +13,7 @@ use std::process::{self, Command};
 use std::{env, fs};
 use traits::Compiler;
 
+/// Starts the program. Reads the .lol file, compiles it, saves the html and opens it in the browser
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -46,11 +47,14 @@ fn main() {
 }
 
 /// Checks that one argument was given and is the proper file type
+/// Gives back the path if it's good, or an error message if it's not
 fn check_args(args: &[String]) -> Result<PathBuf, String> {
+    // args[0] is the program name so we need exactly 2
     if args.len() != 2 {
         return Err("error: expected exactly one input file".to_string());
     }
     let path = PathBuf::from(&args[1]);
+    // Extension can be any case (.lol, .LOL, etc)
     match path.extension().and_then(|ext| ext.to_str()) {
         Some(ext) if ext.eq_ignore_ascii_case("lol") => Ok(path),
         _ => Err("Usage error: only .lol files can be compiled.".to_string()),
@@ -58,7 +62,9 @@ fn check_args(args: &[String]) -> Result<PathBuf, String> {
 }
 
 /// Opens the html file in the default browser
+/// Uses a different command depending on the OS (start, open, or xdg-open)
 fn open_browser(path: &Path) {
+    // Browser needs the full path or it might not find the file
     let full_path = std::path::absolute(path).unwrap_or_else(|_| path.to_path_buf());
     let mut command = if cfg!(target_os = "windows") {
         let mut cmd = Command::new("cmd");
@@ -79,15 +85,18 @@ mod tests {
     use super::*;
 
     /// Transforms list of words
+    /// Turns &str into String so it looks like what env::args gives us
     fn args(list: &[&str]) -> Vec<String> {
         list.iter().map(|s| s.to_string()).collect()
     }
 
+    /// A .lol file should be accepted and the same path given back
     #[test]
     fn accept_lolfile() {
         assert_eq!(check_args(&args(&["lolcompiler", "Test2.lol"])), Ok(PathBuf::from("Test2.lol")));
     }
 
+    /// Anything that isn't a .lol file should give a usage error
     #[test]
     fn reject_txtfile() {
         assert!(check_args(&args(&["lolcompiler", "Test1.txt"])).unwrap_err().starts_with("Usage error"));
@@ -100,6 +109,7 @@ mod tests {
         LolCompiler::new().try_compile(&source)
     }
 
+    /// Runs every test file and checks it gives html or the right kind of error
     #[test]
     fn expected_result() {
         // Format in file, what the result should start with
@@ -134,6 +144,7 @@ mod tests {
         }
     }
 
+    /// Test8 uses variables, so make sure their values show up in the html
     #[test]
     fn test8() {
         let html = compile_file("Test8.lol").unwrap();
@@ -141,6 +152,7 @@ mod tests {
         assert!(html.contains("really happiness"));
     }
 
+    /// Test10 has a link, so make sure it turns into a proper `<a>` tag
     #[test]
     fn test10() {
         let html = compile_file("Test10.lol").unwrap();
@@ -148,6 +160,7 @@ mod tests {
         assert!(html.contains(&format!("<a href=\"{}\">{}</a>", url, url)));
     }
 
+    /// No files or too many files should both be errors
     #[test]
     fn reject_wrongnum() {
         assert!(check_args(&args(&["lolcompiler"])).is_err());
